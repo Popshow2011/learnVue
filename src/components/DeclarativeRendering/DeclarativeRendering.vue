@@ -1,0 +1,40 @@
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
+import { type CounterType, type MessageType } from './types'
+
+const counter = reactive<CounterType>({ count: 0 })
+const message = ref<MessageType>({ value: 'Hello World!' })
+
+const updateCounter = () => {
+  counter.count++
+
+  if (counter.count >= 10) {
+    message.value = { value: 'Count has reached 10!' }
+  }
+}
+</script>
+
+<template>
+  <h1>{{ message.value }}</h1>
+  <p>Count is: {{ counter.count }}</p>
+  <button @click="updateCounter" class="btn">Increment</button>
+</template>
+
+<style scoped>
+.btn {
+  user-select: none;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 14px 2px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #45a049;
+}
+</style>

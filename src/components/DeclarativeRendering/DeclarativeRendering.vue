@@ -16,7 +16,7 @@ const updateCounter = () => {
 }
 </script>
 
-<>
+<template>
   <div :style="{ backgroundColor: color }" class="container">
     <h1>{{ message.value }}</h1>
     <p>Count is: {{ counter.count }}</p>
@@ -24,7 +24,7 @@ const updateCounter = () => {
     <AttributeBindings :alertClass="counter.count < 10 ? 'success' : 'error'" />
     <input type="text" :value="color" />
   </div>
-</>
+</template>
 
 <style scoped>
 .container {

@@ -6,6 +6,7 @@ import { type CounterType, type MessageType } from './types'
 const counter = reactive<CounterType>({ count: 0 })
 const message = ref<MessageType>({ value: 'Hello World!' })
 const color = ref('#291919')
+const isVisibleTitle = ref(true)
 
 const updateCounter = () => {
   counter.count++
@@ -21,12 +22,17 @@ const changeColor = (event) => {
 
 <template>
   <div :style="{ backgroundColor: color }" class="container">
-    <h1>{{ message.value }}</h1>
+    <h1 v-if="isVisibleTitle">{{ message.value }}</h1>
     <p>Count is: {{ counter.count }}</p>
     <button @click="updateCounter" class="btn">Increment</button>
     <AttributeBindings :alertClass="counter.count < 10 ? 'success' : 'error'" />
     <input type="text" :value="color" />
     <input type="color" @input="($event) => changeColor($event)" />
+    <div>
+      <button class="btn" @click="isVisibleTitle = !isVisibleTitle">
+        {{ isVisibleTitle ? 'Скрыть тайтл' : 'Показать тайтл' }}
+      </button>
+    </div>
   </div>
 </template>
 

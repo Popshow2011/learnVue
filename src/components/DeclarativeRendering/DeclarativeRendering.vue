@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+import AttributeBindings from '@/components/AttributeBindings/AttributeBindings.vue'
 import { type CounterType, type MessageType } from './types'
 
 const counter = reactive<CounterType>({ count: 0 })
@@ -18,6 +19,7 @@ const updateCounter = () => {
   <h1>{{ message.value }}</h1>
   <p>Count is: {{ counter.count }}</p>
   <button @click="updateCounter" class="btn">Increment</button>
+  <AttributeBindings :alertClass="counter.count < 10 ? 'success' : 'error'" />
 </template>
 
 <style scoped>

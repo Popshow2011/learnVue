@@ -25,7 +25,7 @@ const changeColor = (event) => {
     <p>Count is: {{ counter.count }}</p>
     <button @click="updateCounter" class="btn">Increment</button>
     <AttributeBindings :alertClass="counter.count < 10 ? 'success' : 'error'" />
-    <input type="text" :value="color" />
+    <input type="text" v-model="color" />
     <input type="color" @input="($event) => changeColor($event)" />
   </div>
 </template>

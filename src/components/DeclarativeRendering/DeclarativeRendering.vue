@@ -14,6 +14,9 @@ const updateCounter = () => {
     message.value = { value: 'Count has reached 10!' }
   }
 }
+const changeColor = (event) => {
+  color.value = event.target.value
+}
 </script>
 
 <template>
@@ -22,7 +25,8 @@ const updateCounter = () => {
     <p>Count is: {{ counter.count }}</p>
     <button @click="updateCounter" class="btn">Increment</button>
     <AttributeBindings :alertClass="counter.count < 10 ? 'success' : 'error'" />
-    <input type="text" :value="color" />
+    <input type="text" v-model="color" />
+    <input type="color" @input="($event) => changeColor($event)" />
   </div>
 </template>
 

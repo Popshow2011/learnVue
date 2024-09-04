@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import AttributeBindings from '@/components/AttributeBindings/AttributeBindings.vue'
+import { reactive, ref } from 'vue'
 import { type CounterType, type MessageType } from './types'
 
 const counter = reactive<CounterType>({ count: 0 })
@@ -14,14 +14,16 @@ const updateCounter = () => {
     message.value = { value: 'Count has reached 10!' }
   }
 }
-const changeColor = (event) => {
-  color.value = event.target.value
+const changeColor = ({ target }: Event) => {
+  if (target instanceof HTMLInputElement) {
+    color.value = target.value
+  }
 }
 </script>
 
 <template>
   <div :style="{ backgroundColor: color }" class="container">
-    <h1>{{ message.value }}</h1>
+    <h1 v-if="counter.count < 10">{{ message.value }}</h1>
     <p>Count is: {{ counter.count }}</p>
     <button @click="updateCounter" class="btn">Increment</button>
     <AttributeBindings :alertClass="counter.count < 10 ? 'success' : 'error'" />

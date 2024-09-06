@@ -1,35 +1,43 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
+import { fetchTodoList } from './Api'
 import { type TodoListType } from './types'
+
 const todos = ref<TodoListType | []>([])
-onMounted(() => {
-  getTodosList()
-})
-const getTodosList = () => {
-  fetch('https://jsonplaceholder.typicode.com/todos')
-    .then((response) => response.json())
-    .then((json) => (todos.value = json))
+const getTodosList = async () => {
+  try {
+    todos.value = await fetchTodoList()
+  } catch (error) {
+    console.error('Ошибка при получении данных:', error)
+  }
 }
+
+getTodosList()
 </script>
 <template>
-  <div class="table">
-    <table border="2">
-      <tbody>
-        <tr>
-          <th>id</th>
-          <th>Title</th>
-          <th>completed</th>
-          <th>UserId</th>
-        </tr>
-        <tr v-for="todo in todos" :key="todo.id">
-          <td>{{ todo.id }}</td>
-          <td>{{ todo.title }}</td>
-          <td>{{ todo.completed }}</td>
-          <td>{{ todo.userId }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <Suspense>
+    <template #default>
+      <div class="table">
+        <table border="2">
+          <tbody>
+            <tr>
+              <th>id</th>
+              <th>Title</th>
+              <th>completed</th>
+              <th>UserId</th>
+            </tr>
+            <tr v-for="todo in todos" :key="todo.id">
+              <td>{{ todo.id }}</td>
+              <td>{{ todo.title }}</td>
+              <td>{{ todo.completed }}</td>
+              <td>{{ todo.userId }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </template>
+    <template #fallback>Loading...</template>
+  </Suspense>
 </template>
 
 <style scoped></style>

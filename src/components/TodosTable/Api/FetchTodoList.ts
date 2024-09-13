@@ -1,11 +1,9 @@
 import type { TodoListType } from '../types'
 
 export const fetchTodoList = async (): Promise<TodoListType> => {
-  try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/todos')
-    return await response.json()
-  } catch (error) {
-    console.error('Ошибка при получении данных:', error)
-    throw error
-  }
+  return await (await fetch('https://jsonplace2holder.typicode.com/todos'))
+    .json()
+    .catch((error) => {
+      throw new Error(`Error: ${error.message}`)
+    })
 }

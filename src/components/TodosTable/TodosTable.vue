@@ -5,7 +5,9 @@ import { type TodoListType } from './types'
 
 const todos = ref<TodoListType | []>([])
 const getTodosList = async () => {
-  todos.value = await fetchTodoList()
+  todos.value = await fetchTodoList().catch((error) => {
+    throw new Error(`Error: ${error.message}`)
+  })
 }
 
 getTodosList()

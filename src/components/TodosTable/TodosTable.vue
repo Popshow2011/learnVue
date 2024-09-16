@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { fetchTodoList } from './Api'
 import { type TodoListType } from './types'
 
+const hideCompleted = ref(false)
 const todos = ref<TodoListType | []>([])
 const getTodosList = async () => {
   todos.value = await fetchTodoList().catch((error) => {
@@ -10,12 +11,24 @@ const getTodosList = async () => {
   })
 }
 
+const filteredTodos = computed(() => {
+  return hideCompleted.value ? todos.value.filter((elem) => !elem.completed) : todos.value
+})
+
 getTodosList()
 </script>
 <template>
   <Suspense>
     <template #default>
       <div class="table">
+        <div>
+          <div>Settings</div>
+          <div>
+            <button @click="hideCompleted = !hideCompleted">
+              {{ hideCompleted ? 'Show completed' : 'Hide completed' }}
+            </button>
+          </div>
+        </div>
         <table border="2">
           <tbody>
             <tr>
@@ -24,7 +37,7 @@ getTodosList()
               <th>completed</th>
               <th>UserId</th>
             </tr>
-            <tr v-for="todo in todos" :key="todo.id">
+            <tr v-for="todo in filteredTodos" :key="todo.id">
               <td>{{ todo.id }}</td>
               <td>{{ todo.title }}</td>
               <td>{{ todo.completed }}</td>

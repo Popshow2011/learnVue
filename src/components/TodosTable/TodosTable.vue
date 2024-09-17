@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { fetchTodoList } from './Api'
 import { type TodoListType } from './types'
 
 const hideCompleted = ref(false)
+const lengthTodos = ref(0)
 const settingsElementRef = ref<HTMLParagraphElement | null>(null)
 const todos = ref<TodoListType | []>([])
 const getTodosList = async () => {
@@ -20,6 +21,8 @@ const filteredTodos = computed(() => {
   return hideCompleted.value ? todos.value.filter((elem) => !elem.completed) : todos.value
 })
 
+watch(filteredTodos, () => (lengthTodos.value = filteredTodos.value.length))
+
 getTodosList()
 </script>
 <template>
@@ -30,6 +33,7 @@ getTodosList()
           <div>Settings</div>
           <div>
             <p ref="settingsElementRef">Таблица загружается</p>
+            <p>Всего задач: {{ lengthTodos }}</p>
             <button @click="hideCompleted = !hideCompleted">
               {{ hideCompleted ? 'Show completed' : 'Hide completed' }}
             </button>

@@ -8,6 +8,7 @@ const props = defineProps({
 <template>
   <div class="header" :style="props.propStyle" @click="(event) => emit('eventComponent', event)">
     {{ props.msg }}
+    <slot>Данные в слоте</slot>
   </div>
 </template>
 <style lang="css" scoped>

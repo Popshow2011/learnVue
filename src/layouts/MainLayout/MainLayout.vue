@@ -4,7 +4,8 @@
       msg="Черт знает что за приложение"
       :prop-style="'background-color: blue;'"
       @eventComponent="(event) => console.log(event)"
-    />
+      >Переопределили слот</Header
+    >
     <DeclarativeRendering />
     <TodosTable />
   </div>

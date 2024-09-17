@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header msg="Черт знает что за приложение" :prop-style="'background-color: blue;'" />
     <DeclarativeRendering />
     <TodosTable />
   </div>

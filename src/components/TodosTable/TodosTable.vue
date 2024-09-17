@@ -1,15 +1,20 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { fetchTodoList } from './Api'
 import { type TodoListType } from './types'
 
 const hideCompleted = ref(false)
+const settingsElementRef = ref<HTMLParagraphElement | null>(null)
 const todos = ref<TodoListType | []>([])
 const getTodosList = async () => {
   todos.value = await fetchTodoList().catch((error) => {
     throw new Error(`Error: ${error.message}`)
   })
 }
+onMounted(() => {
+  if (!settingsElementRef.value) return
+  settingsElementRef.value.textContent = 'Таблица загружена'
+})
 
 const filteredTodos = computed(() => {
   return hideCompleted.value ? todos.value.filter((elem) => !elem.completed) : todos.value
@@ -24,6 +29,7 @@ getTodosList()
         <div>
           <div>Settings</div>
           <div>
+            <p ref="settingsElementRef">Таблица загружается</p>
             <button @click="hideCompleted = !hideCompleted">
               {{ hideCompleted ? 'Show completed' : 'Hide completed' }}
             </button>
